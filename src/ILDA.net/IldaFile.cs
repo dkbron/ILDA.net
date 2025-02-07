@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace ILDA.net
 {
-    public class IldaFile : Collection<IldaFrame>
+    public class IldaFile : ObservableCollection<IldaFrame>
     {
         public IldaPalette Palette { get; set; } = IldaPalette.GetDefaultPalette();
         public string Location { get; set; } = "empty";

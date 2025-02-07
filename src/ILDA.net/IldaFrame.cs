@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace ILDA.net
 {
-    public class IldaFrame : Collection<IldaPoint>, IHeadItem
+    public class IldaFrame : ObservableCollection<IldaPoint>, IHeadItem
     {
         public string Name { get; set; } = "ILDA.net";
         public string CompanyName { get; set; } = "ILDA.net";
