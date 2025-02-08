@@ -158,6 +158,8 @@ namespace ILDA.net
         public byte G { get; set; } = 0;
         public byte B { get; set; } = 0;
 
+        public bool IsBlanked => R == 0 && G == 0 && B == 0;
+
         public IldaColor() { }
         public IldaColor(byte r, byte g, byte b)
         {
