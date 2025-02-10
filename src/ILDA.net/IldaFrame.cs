@@ -1,17 +1,23 @@
-﻿using ILDA.net.Interfaces;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ILDA.net.Interfaces;
 using ILDA.net.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ILDA.net
 {
-    public class IldaFrame : ObservableCollection<IldaPoint>, IHeadItem
+    public partial class IldaFrame : ObservableObject, IHeadItem
     {
+        public ObservableCollection<IldaPoint> Points { get; set; } = new ObservableCollection<IldaPoint>();
         public string Name { get; set; } = "ILDA.net";
         public string CompanyName { get; set; } = "ILDA.net";
         public byte IldaVersion { get; set; } = 4;
         public byte ScannerNumber { get; set; } = 0;
-        public UInt16 ItemsCount => (UInt16)Items.Count;
-        public bool IsFull => this.Count == UInt16.MaxValue;
+        public UInt16 ItemsCount => (UInt16)Points.Count;
+        public bool IsFull => Points.Count == UInt16.MaxValue;
+
+        [ObservableProperty]
+        private int showIndex;
 
         public IldaFrame(byte ildaVersion)
         {
@@ -29,20 +35,20 @@ namespace ILDA.net
         public void Add(short x, short y, short z, bool isblanked) => 
             this.Add(new IldaPoint(x, y, z, isblanked));
 
-        public new void Add(IldaPoint ildaPoint)
+        public void Add(IldaPoint ildaPoint)
         {
-            if (this.Count < UInt16.MaxValue)
+            if (Points.Count < UInt16.MaxValue)
             {
-                base.Add(ildaPoint);
+                Points.Add(ildaPoint);
             }
         }
 
         public byte[] GetBodyBytes()
         {
             List<byte> bytes = new List<byte>();
-            for (int i = 0; i < Items.Count; i += 1)
+            for (int i = 0; i < Points.Count; i += 1)
             {
-                bytes.AddRange(this[i].GetBytes(this.IldaVersion, i == Items.Count - 1));
+                bytes.AddRange(Points[i].GetBytes(this.IldaVersion, i == Points.Count - 1));
             }
             return bytes.ToArray();
         }

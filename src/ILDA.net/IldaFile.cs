@@ -18,6 +18,7 @@ namespace ILDA.net
             if (headItem is IldaFrame frame)
             {
                 base.Add(frame);
+                frame.ShowIndex = base.IndexOf(frame) + 1;
             }
         }
 
